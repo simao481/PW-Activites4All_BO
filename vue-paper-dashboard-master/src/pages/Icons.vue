@@ -1,3 +1,4 @@
+<!--
 <template>
   <div class="row">
     <div class="col-md-12">
@@ -147,7 +148,7 @@
               <span class="icon-name"> ti-exchange-vertical</span>
             </div>
           </div>
-          <!-- Arrows Icons -->
+         
 
           <h3>Web App Icons</h3>
 
@@ -933,7 +934,7 @@
               <span class="icon-name"> ti-rss-alt</span>
             </div>
           </div>
-          <!-- Web App Icons -->
+          
 
           <div class="icon-section">
             <h3>Control Icons</h3>
@@ -982,7 +983,7 @@
               <span class="icon-name"> ti-control-eject</span>
             </div>
           </div>
-          <!-- Control Icons -->
+          
 
           <div class="icon-section">
             <h3>Text Editor</h3>
@@ -1045,8 +1046,7 @@
               <span class="icon-name"> ti-quote-left</span>
             </div>
           </div>
-          <!-- Text Editor -->
-
+          
           <div class="icon-section">
             <h3>Layout Icons</h3>
             <div class="icon-container">
@@ -1298,7 +1298,7 @@
               <span class="icon-name"> ti-layout-column2-alt</span>
             </div>
           </div>
-          <!-- Layout Icons -->
+          
 
           <div class="icon-section">
             <h3>Brand Icons</h3>
@@ -1471,7 +1471,7 @@
               <span class="icon-name"> ti-themify-favicon-alt</span>
             </div>
           </div>
-          <!-- brand Icons -->
+         
         </div>
       </card>
     </div>
@@ -1481,3 +1481,379 @@
 export default {};
 </script>
 <style></style>
+-->
+<template>
+  <div>
+    <div class="row">
+      <div class="col-12">
+        <card :title="table1.title" :subTitle="table1.subTitle">
+          <div slot="raw-content" class="table-responsive">
+            <paper-table
+              :data="table1.data"
+              :columns="table1.columns"
+            ></paper-table>
+          </div>
+        </card>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="titulo">Título:</label>
+          <input
+            type="text"
+            id="titulo"
+            v-model="novaAtividade.titulo"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="preco">Preço:</label>
+          <input
+            type="number"
+            id="preco"
+            v-model="novaAtividade.preco"
+            class="form-control"
+            step="0.01"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="imagem">Imagem:</label>
+          <input
+            type="file"
+            id="imagem"
+            @change="selecionarImagem"
+            class="form-control-file"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="tempo">Tempo (em horas):</label>
+          <input
+            type="number"
+            id="tempo"
+            v-model="novaAtividade.tempo"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="categoria">Categoria:</label>
+          <select
+            id="categoria"
+            v-model="novaAtividade.categoria"
+            class="form-control"
+            required
+          >
+            <option value="agua">Água</option>
+            <option value="terra">Terra</option>
+            <option value="ar">Ar</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="descricao">Descrição:</label>
+          <textarea
+            id="descricao"
+            v-model="novaAtividade.descricao"
+            class="form-control"
+            required
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="materialNecessario">Material Necessário:</label>
+          <ul>
+            <li
+              v-for="(material, index) in novaAtividade.materialNecessario"
+              :key="index"
+            >
+              <input
+                type="text"
+                v-model="material.material"
+                class="form-control"
+                required
+              />
+            </li>
+          </ul>
+          <button class="btn btn-primary" @click="adicionarMaterialNecessario">
+            Adicionar Material
+          </button>
+        </div>
+        <div class="mb-3">
+          <label for="materialIncluido">Material Incluído:</label>
+          <ul>
+            <li
+              v-for="(material, index) in novaAtividade.materialIncluido"
+              :key="index"
+            >
+              <input
+                type="text"
+                v-model="material.material"
+                class="form-control"
+                required
+              />
+            </li>
+          </ul>
+          <button class="btn btn-primary" @click="adicionarMaterialIncluido">
+            Adicionar Material
+          </button>
+        </div>
+        <div class="mb-3">
+          <label for="dificuldade">Dificuldade:</label>
+          <input
+            type="number"
+            id="dificuldade"
+            v-model="novaAtividade.dificuldade"
+            class="form-control"
+            min="0"
+            max="5"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="localizacao">Localização:</label>
+          <input
+            type="number"
+            id="localizacao"
+            v-model="novaAtividade.localizacao"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="participantes">Participantes:</label>
+          <input
+            type="number"
+            id="participantes"
+            v-model="novaAtividade.requisitos.participantes"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="idadeMin">Idade Mínima:</label>
+          <input
+            type="number"
+            id="idadeMin"
+            v-model="novaAtividade.requisitos.idadeMin"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="idadeMax">Idade Máxima:</label>
+          <input
+            type="number"
+            id="idadeMax"
+            v-model="novaAtividade.requisitos.idadeMax"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="pesoMin">Peso Mínimo (em kg):</label>
+          <input
+            type="number"
+            id="pesoMin"
+            v-model="novaAtividade.requisitos.pesoMin"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="pesoMax">Peso Máximo (em kg):</label>
+          <input
+            type="number"
+            id="pesoMax"
+            v-model="novaAtividade.requisitos.pesoMax"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="altura">Altura (em metros):</label>
+          <input
+            type="number"
+            id="altura"
+            v-model="novaAtividade.requisitos.altura"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="tempoRequisito">Tempo (em minutos):</label>
+          <input
+            type="number"
+            id="tempoRequisito"
+            v-model="novaAtividade.requisitos.tempo"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="avaliacao">Avaliação:</label>
+          <input
+            type="number"
+            id="avaliacao"
+            v-model="novaAtividade.avaliacao"
+            class="form-control"
+            min="0"
+            max="5"
+            required
+          />
+        </div>
+        <div class="d-grid">
+          <button
+            class="btn btn-primary"
+            @click="adicionarAtividade"
+            :disabled="!validarFormulario"
+          >
+            Adicionar Atividade
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { ref } from "vue";
+import { PaperTable } from "@/components";
+
+export default {
+  components: {
+    PaperTable,
+  },
+  data() {
+    return {
+      table1: {
+        title: "Atividades",
+        subTitle: "Lista de atividades cadastradas",
+        data: [],
+        columns: ["Id", "titulo", "preco"],
+      },
+      novaAtividade: {
+        id: "",
+        titulo: "",
+        preco: null,
+        imagem: null,
+        tempo: null,
+        categoria: "",
+        descricao: "",
+        materialNecessario: [],
+        materialIncluido: [],
+        dificuldade: null,
+        localizacao: null,
+        requisitos: {
+          participantes: null,
+          idadeMin: null,
+          idadeMax: null,
+          pesoMin: null,
+          pesoMax: null,
+          altura: null,
+          tempo: null
+        },
+        avaliacao: null
+      },
+    };
+  },
+  mounted() {
+    // Recuperar atividades do Local Storage
+    const atividadesArmazenadas = localStorage.getItem("atividades");
+    if (atividadesArmazenadas) {
+      this.table1.data = JSON.parse(atividadesArmazenadas);
+    }
+  },
+  methods: {
+    adicionarMaterialNecessario() {
+      this.novaAtividade.materialNecessario.push({ material: "" });
+    },
+    adicionarMaterialIncluido() {
+      this.novaAtividade.materialIncluido.push({ material: "" });
+    },
+    adicionarAtividade() {
+      // Verificar se os campos obrigatórios estão preenchidos
+      if (!this.validarFormulario()) {
+        console.log("Por favor, preencha todos os campos obrigatórios.");
+        return;
+      }
+      
+      // Gerar um ID único para a atividade
+      this.novaAtividade.id = Date.now().toString();
+      
+      // Adicionar a atividade à tabela
+      this.table1.data.push(this.novaAtividade);
+      
+      // Armazenar a atividade no localStorage
+      this.salvarAtividadeNoLocalStorage(this.novaAtividade);
+      
+      // Limpar os campos do formulário
+      this.novaAtividade = {
+        id: "",
+        titulo: "",
+        preco: null,
+        imagem: null,
+        tempo: null,
+        categoria: "",
+        descricao: "",
+        materialNecessario: [],
+        materialIncluido: [],
+        dificuldade: null,
+        localizacao: null,
+        requisitos: {
+          participantes: null,
+          idadeMin: null,
+          idadeMax: null,
+          pesoMin: null,
+          pesoMax: null,
+          altura: null,
+          tempo: null
+        },
+        avaliacao: null
+      };
+    },
+    selecionarImagem(event) {
+      const file = event.target.files[0];
+      // Realizar as ações necessárias com o arquivo selecionado
+      console.log("Imagem selecionada:", file);
+    },
+    validarFormulario() {
+      // Validar se todos os campos estão preenchidos corretamente
+      // Retornar true ou false
+      
+      // Exemplo simples de validação: verificar se todos os campos obrigatórios estão preenchidos
+      return (
+        this.novaAtividade.titulo &&
+        this.novaAtividade.preco &&
+        this.novaAtividade.tempo &&
+        this.novaAtividade.categoria &&
+        this.novaAtividade.descricao &&
+        this.novaAtividade.materialNecessario.length > 0 &&
+        this.novaAtividade.dificuldade &&
+        this.novaAtividade.localizacao &&
+        this.novaAtividade.requisitos.participantes &&
+        this.novaAtividade.requisitos.idadeMin &&
+        this.novaAtividade.requisitos.idadeMax &&
+        this.novaAtividade.requisitos.pesoMin &&
+        this.novaAtividade.requisitos.pesoMax &&
+        this.novaAtividade.requisitos.altura &&
+        this.novaAtividade.requisitos.tempo &&
+        this.novaAtividade.avaliacao
+      );
+    },
+    salvarAtividadeNoLocalStorage(atividade) {
+      let atividades = localStorage.getItem("atividades");
+      if (atividades) {
+        atividades = JSON.parse(atividades);
+      } else {
+        atividades = [];
+      }
+      
+      atividades.push(atividade);
+      
+      localStorage.setItem("atividades", JSON.stringify(atividades));
+    }
+  }
+};
+</script>

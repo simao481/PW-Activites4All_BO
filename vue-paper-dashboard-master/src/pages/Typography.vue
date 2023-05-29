@@ -203,34 +203,40 @@ export default {};
 -->
 
 <template>
-  <div class="row">
-    <div class="col-12">
-      <card :title="table1.title" :subTitle="table1.subTitle">
-        <div slot="raw-content" class="table-responsive">
-          <paper-table :data="table1.data" :columns="table1.columns">
-          </paper-table>
+  <div>
+    <div class="row">
+      <div class="col-12">
+        <card :title="table1.title" :subTitle="table1.subTitle">
+          <div slot="raw-content" class="table-responsive">
+            <paper-table :data="table1.data" :columns="table1.columns"></paper-table>
+          </div>
+        </card>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="nome">Nome:</label>
+          <input type="text" id="nome" v-model="novoProfissional.nome" class="form-control" required>
         </div>
-      </card>
+        <div class="mb-3">
+          <label for="funcao">Função:</label>
+          <input type="text" id="funcao" v-model="novoProfissional.funcao" class="form-control" required>
+        </div>
+        <div class="d-grid">
+          <button class="btn btn-primary" @click="adicionarProfissional" :disabled="!validarFormulario">
+            Adicionar Profissional
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
-
 <script>
+import { ref } from "vue";
 import { PaperTable } from "@/components";
 
-const func = [
-  {
-    id: 1,
-    nome: "Rita",
-    funcao: "Atividades de água",
-  },
-];
-localStorage.setItem("gestores", JSON.stringify(func));
-
-const tableColumns = ["Id", "Nome", "Funcao"];
-const tableData = JSON.parse(localStorage.getItem("gestores"));
-console.log(tableData)
 export default {
   components: {
     PaperTable,
@@ -240,14 +246,53 @@ export default {
       table1: {
         title: "Profissionais",
         subTitle: "",
-        columns: [...tableColumns],
-        data: [...tableData],
+        columns: ["Id", "Nome", "Funcao"],
+        data: [],
+      },
+      novoProfissional: {
+        nome: "",
+        funcao: "",
       },
     };
+  },
+  created() {
+    this.carregarDados();
+  },
+  methods: {
+    carregarDados() {
+      const data = localStorage.getItem("gestores");
+      if (data) {
+        this.table1.data = JSON.parse(data);
+      }
+    },
+    salvarDados() {
+      localStorage.setItem("gestores", JSON.stringify(this.table1.data));
+    },
+    adicionarProfissional() {
+      if (this.validarFormulario()) {
+        const novoId = this.table1.data.length + 1;
+        const novoProfissional = {
+          id: novoId,
+          nome: this.novoProfissional.nome,
+          funcao: this.novoProfissional.funcao,
+        };
+
+        this.table1.data.push(novoProfissional);
+        this.salvarDados();
+
+        this.resetarFormulario();
+      }
+    },
+    resetarFormulario() {
+      this.novoProfissional.nome = "";
+      this.novoProfissional.funcao = "";
+    },
+    validarFormulario() {
+      return this.novoProfissional.nome.trim() !== "" && this.novoProfissional.funcao.trim() !== "";
+    },
   },
 };
 </script>
 
 <style></style>
-
 
