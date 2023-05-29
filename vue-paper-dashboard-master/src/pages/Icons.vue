@@ -1730,7 +1730,7 @@ export default {
     return {
       table1: {
         title: "Atividades",
-        subTitle: "Lista de atividades cadastradas",
+        subTitle: "Lista de atividades",
         data: [],
         columns: ["Id", "imagem", "categoria", "titulo", "preco"],
       },
