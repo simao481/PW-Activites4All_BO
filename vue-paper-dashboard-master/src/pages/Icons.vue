@@ -1720,6 +1720,7 @@ export default {};
 <script>
 import { ref } from "vue";
 import { PaperTable } from "@/components";
+import axios from "axios";
 
 export default {
   components: {
@@ -1731,7 +1732,7 @@ export default {
         title: "Atividades",
         subTitle: "Lista de atividades cadastradas",
         data: [],
-        columns: ["Id", "titulo", "preco"],
+        columns: ["Id", "imagem", "categoria", "titulo", "preco"],
       },
       novaAtividade: {
         id: "",
@@ -1815,8 +1816,21 @@ export default {
     },
     selecionarImagem(event) {
       const file = event.target.files[0];
-      // Realizar as ações necessárias com o arquivo selecionado
-      console.log("Imagem selecionada:", file);
+
+      const formData = new FormData();
+      formData.append("imagem", file);
+
+      axios.post("/api/upload-imagem", formData)
+        .then(response => {
+          // Obter o caminho da imagem do servidor
+          const imagePath = response.data.path;
+
+          // Armazenar o caminho da imagem no objeto novaAtividade
+          this.novaAtividade.imagem = imagePath;
+        })
+        .catch(error => {
+          console.log("Erro ao enviar imagem:", error);
+        });
     },
     validarFormulario() {
       // Validar se todos os campos estão preenchidos corretamente
