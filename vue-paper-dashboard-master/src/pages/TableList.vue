@@ -88,12 +88,14 @@ export default {
 </template>
 
 <script>
-import { Card, PaperTable2 } from "@/components";
+import { Card, PaperTable } from "@/components";
+import { routerLink } from 'vue-router'
+
 
 export default {
   components: {
     Card,
-    PaperTable2,
+    PaperTable,
   },
   data() {
     return {
@@ -113,14 +115,15 @@ export default {
   },
   methods: {
     handleRowClick(row) {
-      // Set reservaSelecionada no localStorage
+      // Set reservaSelecionada in localStorage
       localStorage.setItem("reservaSelecionada", JSON.stringify(row));
-      
-      // Navegar para a página Typography.vue
-      this.$router.push("/details");
+
+      // Navigate to the "Perfil" page
+      this.$router.push("src/pages/Maps.vue");
     },
   },
 };
 </script>
 
 <style></style>
+

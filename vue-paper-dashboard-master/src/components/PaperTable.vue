@@ -443,7 +443,21 @@ export default {
             :key="index"
             v-if="hasValue(item, column)"
           >
-            {{ itemValue(item, column) }}
+            <template>
+              <template v-if="column === 'Ver Mais'">
+                <router-link :to="`src/pages/Maps.vue/${item.id}`">
+                  Ver detalhes
+                </router-link>
+              </template>
+              <template v-else>
+                {{ itemValue(item, column) }}
+              </template>
+            </template>
+          </td>
+          <td>
+            <router-link :to="`Detalhes/${item.id}`">
+              Ver detalhes
+            </router-link>
           </td>
         </slot>
       </tr>
@@ -468,6 +482,8 @@ export default {
     </tfoot>
   </table>
 </template>
+
+
 
 <script>
 export default {
