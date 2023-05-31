@@ -36,17 +36,17 @@
           chart-type="Pie"
         >
           <span slot="footer">
-            <i class="ti-timer"></i> Campaign set 2 days ago</span
+            <i class="ti-timer"></i> Atividades mais realizadas</span
           >
           <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Open
-            <i class="fa fa-circle text-danger"></i> Bounce
-            <i class="fa fa-circle text-warning"></i> Unsubscribe
+            <i class="fa fa-circle text-info"></i> Corrida
+            <i class="fa fa-circle text-danger"></i> Asa Delta
+            <i class="fa fa-circle text-warning"></i> Canoagem
           </div>
         </chart-card>
       </div>
 
-      <div class="col-md-6 col-12">
+      <!--<div class="col-md-6 col-12">
         <chart-card
           title="2015 Sales"
           sub-title="All products including Taxes"
@@ -61,7 +61,7 @@
             <i class="fa fa-circle text-warning"></i> BMW 5 Series
           </div>
         </chart-card>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -144,8 +144,8 @@ export default {
       },
       preferencesChart: {
         data: {
-          labels: [],
-          series: [],
+          labels: ["62%", "32%", "6%"],
+          series: [62, 32, 6],
         },
         options: {},
       },
@@ -157,7 +157,7 @@ export default {
     this.calcularAtividadesRejeitadas(); // Chame a função para calcular o valor inicial
     this.calcularGanhos(); // Chame a função para calcular o valor inicial
     this.calcularNumeroGestores();
-    this.calcularAtividadesMaisRealizadas();
+  //  this.calcularAtividadesMaisRealizadas();
   },
 
   methods: {
@@ -192,7 +192,7 @@ export default {
       this.$set(this.statsCards[3], 'value', numeroGestores);
     },
   
-     calcularAtividadesMaisRealizadas() {
+  calcularAtividadesMaisRealizadas() {
       const reservasData = JSON.parse(localStorage.getItem("reservas")) || [];
 
       // Filtrar reservas com estado "aceite"

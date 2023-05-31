@@ -216,12 +216,16 @@ export default {};
     <div class="row d-flex justify-content-center">
       <div class="col-md-6">
         <div class="mb-3">
-          <label for="nome">Nome:</label>
-          <input type="text" id="nome" v-model="novoProfissional.nome" class="form-control" required>
+          <label for="user">Nome:</label>
+          <input type="text" id="user" v-model="novoProfissional.user" class="form-control" required>
         </div>
         <div class="mb-3">
           <label for="funcao">Função:</label>
           <input type="text" id="funcao" v-model="novoProfissional.funcao" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="password">Password:</label>
+          <input type="text" id="password" v-model="novoProfissional.password" class="form-control" required>
         </div>
         <div class="d-grid">
           <button class="btn btn-primary" @click="adicionarProfissional" :disabled="!validarFormulario">
@@ -246,12 +250,13 @@ export default {
       table1: {
         title: "Profissionais",
         subTitle: "",
-        columns: ["Id", "Nome", "Funcao"],
+        columns: ["Id", "User", "Funcao"],
         data: [],
       },
       novoProfissional: {
-        nome: "",
+        user: "",
         funcao: "",
+        password: "",
       },
     };
   },
@@ -273,8 +278,9 @@ export default {
         const novoId = this.table1.data.length + 1;
         const novoProfissional = {
           id: novoId,
-          nome: this.novoProfissional.nome,
+          user: this.novoProfissional.user,
           funcao: this.novoProfissional.funcao,
+          password: this.novoProfissional.password,
         };
 
         this.table1.data.push(novoProfissional);
@@ -284,11 +290,12 @@ export default {
       }
     },
     resetarFormulario() {
-      this.novoProfissional.nome = "";
+      this.novoProfissional.user = "";
       this.novoProfissional.funcao = "";
+      this.novoProfissional.password = "";
     },
     validarFormulario() {
-      return this.novoProfissional.nome.trim() !== "" && this.novoProfissional.funcao.trim() !== "";
+      return this.novoProfissional.user.trim() !== "" && this.novoProfissional.funcao.trim() !== "" && this.novoProfissional.password.trim() !== "";
     },
   },
 };

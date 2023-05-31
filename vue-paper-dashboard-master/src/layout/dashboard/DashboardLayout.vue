@@ -12,8 +12,9 @@
         <sidebar-link to="/typography" name="Profissionais" icon="ti-id-badge" />
         <sidebar-link to="/icons" name="Atividades" icon="ti-pencil-alt2" />
         <sidebar-link to="/maps" name="Sede" icon="ti-map" />
-        <sidebar-link to="/notifications" name="Notifications" icon="ti-bell" />
+      <!--  <sidebar-link to="/notifications" name="Notifications" icon="ti-bell" /> -->
       </template>
+      
       <mobile-menu>
         <li class="nav-item">
           <a class="nav-link">
@@ -41,6 +42,7 @@
         </li>
         <li class="divider"></li>
       </mobile-menu>
+      
     </side-bar>
     <div class="main-panel">
       <top-navbar></top-navbar>

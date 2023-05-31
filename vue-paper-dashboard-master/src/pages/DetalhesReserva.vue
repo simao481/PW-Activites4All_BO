@@ -480,7 +480,7 @@ export default {
               <label>Atribua um funcionário responsável</label>
               <select class="custom-select" v-model="funcionarioSelecionado">
                 <option disabled value="">Selecione uma opção</option>
-                <option v-for="gestor in gestores" :key="gestor.id" :value="gestor.nome">{{ gestor.nome }}</option>
+                <option v-for="gestor in gestores" :key="gestor.id" :value="gestor.user">{{ gestor.user }}</option>
               </select>
             </div>
           </div>
