@@ -1,51 +1,39 @@
+
 <template>
-  <div>
-    <h1>Detalhes da Atividade</h1>
-    <card :title="atividadeDetalhes.title" :subTitle="atividadeDetalhes.subTitle">
-      <div slot="raw-content" class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Usuário</th>
-              <th>Total</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ atividadeDetalhes.id }}</td>
-              <td>{{ atividadeDetalhes.user }}</td>
-              <td>{{ atividadeDetalhes.total }}</td>
-              <td>{{ atividadeDetalhes.estado }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </card>
+  <div class="container">
+      <detalhes-reserva> </detalhes-reserva>
+  </div>
+</template>
+<script>
+
+import DetalhesReserva from "./DetalhesReserva.vue";
+export default {
+  components: {
+    DetalhesReserva,
+  },
+};
+</script>
+<style></style>
+
+<!--
+<template>
+  <div class="container">
+    <detalhes-reserva :reservas="reservas"></detalhes-reserva>
   </div>
 </template>
 
 <script>
-import { Card } from "@/components";
+import DetalhesReserva from "./DetalhesReserva.vue";
 
 export default {
   components: {
-    Card,
+    DetalhesReserva,
   },
   data() {
     return {
-      atividadeDetalhes: {},
+      reservas: {},
     };
-  },
-  mounted() {
-    // Recupera os detalhes da atividade do localStorage
-    const reservaSelecionada = JSON.parse(localStorage.getItem("reservaSelecionada"));
-    if (reservaSelecionada) {
-      this.atividadeDetalhes = reservaSelecionada;
-    }
   },
 };
 </script>
-
-<style></style>
+-->

@@ -8,7 +8,7 @@
 <script>
 export default {
   mounted() {
-    var myLatlng = new window.google.maps.LatLng(40.748817, -73.985428);
+    var myLatlng = new window.google.maps.LatLng(41.59683900, -8.26850600);
     var mapOptions = {
       zoom: 13,
       center: myLatlng,

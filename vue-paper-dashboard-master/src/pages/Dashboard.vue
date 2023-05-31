@@ -28,28 +28,10 @@
 
     <!--Charts-->
     <div class="row">
-      <div class="col-12">
-        <chart-card
-          title="Users behavior"
-          sub-title="24 Hours performance"
-          :chart-data="usersChart.data"
-          :chart-options="usersChart.options"
-        >
-          <span slot="footer">
-            <i class="ti-reload"></i> Updated 3 minutes ago
-          </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Open
-            <i class="fa fa-circle text-danger"></i> Click
-            <i class="fa fa-circle text-warning"></i> Click Second Time
-          </div>
-        </chart-card>
-      </div>
-
+  
       <div class="col-md-6 col-12">
         <chart-card
-          title="Email Statistics"
-          sub-title="Last campaign performance"
+          title="Atividades mais realizadas"
           :chart-data="preferencesChart.data"
           chart-type="Pie"
         >
@@ -99,70 +81,38 @@ export default {
       statsCards: [
         {
           type: "warning",
-          icon: "ti-server",
-          title: "Capacity",
-          value: "105GB",
+          icon: "ti-check-box",
+          title: "Nº de Atividades Aceites",
+          value: "",
           footerText: "Updated now",
           footerIcon: "ti-reload",
         },
         {
-          type: "success",
-          icon: "ti-wallet",
-          title: "Revenue",
-          value: "$1,345",
-          footerText: "Last day",
-          footerIcon: "ti-calendar",
-        },
-        {
           type: "danger",
-          icon: "ti-pulse",
-          title: "Errors",
-          value: "23",
+          icon: "ti-close",
+          title: "Nº Atividades Rejeitadas",
+          value: "",
           footerText: "In the last hour",
           footerIcon: "ti-timer",
         },
         {
+          type: "success",
+          icon: "ti-wallet",
+          title: "Ganhos",
+          value: "",
+          footerText: "Last day",
+          footerIcon: "ti-calendar",
+        },
+        {
           type: "info",
-          icon: "ti-twitter-alt",
-          title: "Followers",
-          value: "+45",
+          icon: "ti-user",
+          title: "Nº de profissionais",
+          value: "",
           footerText: "Updated now",
           footerIcon: "ti-reload",
         },
       ],
-      usersChart: {
-        data: {
-          labels: [
-            "9:00AM",
-            "12:00AM",
-            "3:00PM",
-            "6:00PM",
-            "9:00PM",
-            "12:00PM",
-            "3:00AM",
-            "6:00AM",
-          ],
-          series: [
-            [287, 385, 490, 562, 594, 626, 698, 895, 952],
-            [67, 152, 193, 240, 387, 435, 535, 642, 744],
-            [23, 113, 67, 108, 190, 239, 307, 410, 410],
-          ],
-        },
-        options: {
-          low: 0,
-          high: 1000,
-          showArea: true,
-          height: "245px",
-          axisX: {
-            showGrid: false,
-          },
-          lineSmooth: Chartist.Interpolation.simple({
-            divisor: 3,
-          }),
-          showLine: true,
-          showPoint: false,
-        },
-      },
+
       activityChart: {
         data: {
           labels: [
@@ -194,13 +144,91 @@ export default {
       },
       preferencesChart: {
         data: {
-          labels: ["62%", "32%", "6%"],
-          series: [62, 32, 6],
+          labels: [],
+          series: [],
         },
         options: {},
       },
+      ganhosEmpresa: 0, // Adicione a propriedade ganhosEmpresa
     };
+  },
+  created() {
+    this.calcularAtividadesAceites(); // Chame a função para calcular o valor inicial
+    this.calcularAtividadesRejeitadas(); // Chame a função para calcular o valor inicial
+    this.calcularGanhos(); // Chame a função para calcular o valor inicial
+    this.calcularNumeroGestores();
+    this.calcularAtividadesMaisRealizadas();
+  },
+
+  methods: {
+    calcularAtividadesAceites() {
+      const reservasData = JSON.parse(localStorage.getItem("reservas")) || [];
+      const atividadesAceites = reservasData.filter(reserva => reserva.estado === "Aceite");
+      this.$set(this.statsCards[0], 'value', atividadesAceites.length); // Atualize o valor no objeto statsCards
+    },
+
+    calcularAtividadesRejeitadas() {
+      const reservasData = JSON.parse(localStorage.getItem("reservas")) || [];
+      const atividadesRejeitadas = reservasData.filter(reserva => reserva.estado === "rejeitado");
+      this.$set(this.statsCards[1], 'value', atividadesRejeitadas.length); // Atualize o valor no objeto statsCards
+    },
+
+    calcularGanhos() {
+      const reservasData = JSON.parse(localStorage.getItem("reservas")) || [];
+      const ganhos = reservasData.reduce((total, reserva) => {
+        if (reserva.estado === "Aceite") {
+          const valorReserva = parseFloat(reserva.total);
+          if (!isNaN(valorReserva)) {
+            return total + valorReserva;
+          }
+        }
+        return total;
+      }, 0);
+      this.$set(this.statsCards[2], 'value', ganhos.toFixed(2)); // Atualize o valor no objeto statsCards
+    }, 
+    calcularNumeroGestores() {
+      const gestoresData = JSON.parse(localStorage.getItem("gestores")) || [];
+      const numeroGestores = gestoresData.length;
+      this.$set(this.statsCards[3], 'value', numeroGestores);
+    },
+  
+     calcularAtividadesMaisRealizadas() {
+      const reservasData = JSON.parse(localStorage.getItem("reservas")) || [];
+
+      // Filtrar reservas com estado "aceite"
+      const reservasAceites = reservasData.filter(
+        (reserva) => reserva.estado === "aceite"
+      );
+
+      // Contar o número de ocorrências de cada atividade
+      const atividadesCount = {};
+      for (const reserva of reservasAceites) {
+        const atividadeId = reserva.atividades.id;
+        if (atividadesCount[atividadeId]) {
+          atividadesCount[atividadeId]++;
+        } else {
+          atividadesCount[atividadeId] = 1;
+        }
+      }
+
+      // Ordenar as atividades por quantidade decrescente
+      const atividadesOrdenadas = Object.keys(atividadesCount).sort(
+        (a, b) => atividadesCount[b] - atividadesCount[a]
+      );
+
+      // Limitar o número de atividades mostradas no gráfico (opcional)
+      const maxAtividades = 5;
+      const atividadesLabels = atividadesOrdenadas.slice(0, maxAtividades);
+      const atividadesSeries = atividadesLabels.map(
+        (label) => atividadesCount[label]
+      );
+
+      // Atualizar os dados do gráfico de pizza
+      this.preferencesChart.data.labels = atividadesLabels;
+      this.preferencesChart.data.series = atividadesSeries;
+    },
   },
 };
 </script>
+
 <style></style>

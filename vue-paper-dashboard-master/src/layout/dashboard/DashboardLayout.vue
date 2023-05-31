@@ -3,15 +3,15 @@
     <side-bar>
       <template slot="links">
         <sidebar-link to="/dashboard" name="Estatísticas" icon="ti-panel" />
-        <sidebar-link to="/stats" name="Perfil" icon="ti-user" />
+        <sidebar-link to="/stats" name="Perfil" icon="ti-user" /> 
         <sidebar-link
           to="/table-list"
           name="Reservas"
           icon="ti-view-list-alt"
         />
-        <sidebar-link to="/typography" name="Profissionais" icon="ti-text" />
+        <sidebar-link to="/typography" name="Profissionais" icon="ti-id-badge" />
         <sidebar-link to="/icons" name="Atividades" icon="ti-pencil-alt2" />
-        <sidebar-link to="/maps" name="Map" icon="ti-map" />
+        <sidebar-link to="/maps" name="Sede" icon="ti-map" />
         <sidebar-link to="/notifications" name="Notifications" icon="ti-bell" />
       </template>
       <mobile-menu>

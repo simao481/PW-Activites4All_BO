@@ -60,7 +60,7 @@ export default {
 
 <style></style>
 -->
-
+<!--
 <template>
   <div class="row">
     <div class="col-12">
@@ -126,4 +126,107 @@ export default {
 </script>
 
 <style></style>
+-->
+<!--
+<template>
+  <div>
+    <h1>Detalhes da Atividade</h1>
+    <card :title="pedido.title" :subTitle="pedido.subTitle">
+      <div slot="raw-content" class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Usuário</th>
+              <th>Total</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ pedido.id }}</td>
+              <td>{{ pedido.user }}</td>
+              <td>{{ pedido.total }}</td>
+              <td>{{ pedido.estado }}</td>
+               <td><router-link :to="'detalhes/'+ item.id">Ver Detalhes</router-link></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </card>
+  </div>
+</template>
 
+<script>
+import { Card } from "@/components";
+
+export default {
+  components: {
+    Card,
+  },
+  data() {
+    return {
+      pedido: {},
+    };
+  },
+  mounted() {
+    // Recupera os detalhes da atividade do localStorage
+    const reservaSelecionada = JSON.parse(localStorage.getItem("reservaSelecionada"));
+    if (reservaSelecionada) {
+      this.pedido = reservaSelecionada;
+    }
+  },
+};
+</script>
+
+<style></style>
+-->
+<template>
+  <div class="row">
+    <div class="col-12">
+      <h4>Pedidos de Reserva</h4>
+      <card>
+        <div slot="raw-content" class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Utilizador</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in tabelaDados" :key="index">
+                <td>{{ item.id }}</td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.total }}</td>
+                <td>{{ item.estado }}</td>
+                <td><router-link :to="'detalhes/'+ item.id">Ver Detalhes</router-link></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </card>
+    </div>
+  </div>
+</template>
+<script>
+
+export default {
+  data() {
+    return {
+      tabelaDados: []
+    };
+  },
+  mounted() {
+    let dadosLocalStorage = JSON.parse(localStorage.getItem('reservas'));
+    console.log(dadosLocalStorage)
+    if (dadosLocalStorage) {
+      this.tabelaDados = dadosLocalStorage;
+    }
+  },
+};
+</script>
+<style></style>
