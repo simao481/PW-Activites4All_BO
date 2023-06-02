@@ -169,7 +169,7 @@ export default {
 
     calcularAtividadesRejeitadas() {
       const reservasData = JSON.parse(localStorage.getItem("reservas")) || [];
-      const atividadesRejeitadas = reservasData.filter(reserva => reserva.estado === "rejeitado");
+      const atividadesRejeitadas = reservasData.filter(reserva => reserva.estado === "Rejeitado");
       this.$set(this.statsCards[1], 'value', atividadesRejeitadas.length); // Atualize o valor no objeto statsCards
     },
 
